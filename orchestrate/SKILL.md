@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Coordinate multiple agents on substantial implementation, investigation, or review tasks. Keep small or tightly coupled tasks with one agent when delegation adds unnecessary overhead.
+description: Coordinate subagents for substantial implementation, investigation, or review, or independent tasks that benefit from parallel work. Keep small, tightly coupled tasks with one agent.
 ---
 
 # Orchestrate
@@ -23,13 +23,15 @@ description: Coordinate multiple agents on substantial implementation, investiga
 
 - Before each spawn, assess the subtask's required decisions, uncertainty, affected behavior, and deliverable.
 - Use `gpt-6.1-sol` for implementation and investigation subagents.
-- Except for the fixed final reviewer, select the lowest effort that supports the required analysis and acceptance conditions.
+- For non-fixed assignments, first assess whether low effort meets the task requirements.
+- If higher effort is needed, identify the requirement that justifies the increase.
+- Explain how the selected higher effort addresses that requirement.
+- Select the lowest sufficient effort that supports the required analysis and acceptance conditions.
 - Select effort from the assigned subtask rather than the parent task.
 - Do not classify work as low effort merely because it is read-only.
 - Pass `model` and `reasoning_effort` explicitly when the tool permits overrides.
-- Coordinator: Select effort and include one brief reason in the assignment.
-- For high or above, name the unresolved decision or interaction and explain why medium effort may be insufficient.
-- Do not justify high effort solely through file count, task importance, or subject matter.
+- Coordinator: State the selected effort and one task-specific reason in the assignment before dispatch.
+- Do not increase effort solely because of file count, task importance, or subject matter.
 - Example: "High: Recovery and reconnect can overlap, which requires analysis of competing paths that could duplicate command effects."
 - Subagents: Report evidence or scope changes that could require a different effort level.
 - Coordinator: Reassess effort after diagnosis and when evidence or scope changes.
@@ -46,7 +48,7 @@ description: Coordinate multiple agents on substantial implementation, investiga
 
 - Use `medium` when clear requirements require several connected decisions or checks.
 - Use it for routine implementation, bounded research, test development, and debugging with an established failure.
-- Default to medium for bounded implementation and corrections once the cause, solution, and acceptance conditions are established.
+- Use medium for bounded implementation when low effort does not support the required decisions and checks.
 - Examples include implementing a defined feature, tracing a known workflow, or planning corrections for established findings.
 
 ### High

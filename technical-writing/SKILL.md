@@ -19,7 +19,8 @@ description: Write, revise, or review technical documents, procedures, explanati
 
 ## Project glossary
 
-- Use relevant entries from the supplied or identified project glossary when available.
+- Find and read applicable project terminology or glossary files when the task depends on project terminology.
+- Use relevant glossary entries for project-specific terms.
 - Otherwise, use established terminology from project sources or the subject field.
 - Do not invent definitions or infer STE permission from usage, glossary inclusion, or review status.
 - Treat unresolved terms as unverified.
