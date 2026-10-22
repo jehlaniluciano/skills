@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Coordinate subagents for substantial implementation, investigation, or review, or independent tasks that benefit from parallel work. Keep small, tightly coupled tasks with one agent.
+description: Use subagents for substantial parallel work. Keep small or tightly coupled tasks with one agent. Delegate proactively when it can save time or improve coverage.
 ---
 
 # Orchestrate
@@ -14,10 +14,13 @@ description: Coordinate subagents for substantial implementation, investigation,
 
 ## Delegation
 
-- Root and non-leaf agents: Delegate independent subtasks when time or quality gains justify coordination and usage costs.
-- Keep small or tightly coupled tasks with one agent when delegation adds unnecessary overhead.
-- Run independent, read-only exploration tasks in parallel.
+- Before substantial work and when scope expands, identify independent deliverables that can run in parallel.
+- Root and non-leaf agents: Delegate independent work early when expected gains exceed coordination, usage, and integration costs.
+- Continue useful work while subagents run.
+- Use parallel tool calls for simple independent lookups.
+- Run dependent steps in sequence and give each shared mutable resource one owner.
 - Avoid conflicting edits and duplicate work.
+- Keep small or tightly coupled tasks with one agent when delegation adds unnecessary overhead.
 
 ## Model and effort selection
 
