@@ -81,8 +81,8 @@ description: Use subagents for substantial parallel work. Keep small or tightly 
 ## Final review
 
 - After implementation, integration, and required checks finish, spawn one independent final reviewer for substantial delegated work.
-- Use `model: "gpt-6.1-sol"`, `reasoning_effort: "xhigh"`, and `fork_turns: "none"`.
-- Keep final review at xhigh without effort selection, including review of subsequent corrections.
+- Use `model: "gpt-6.1-sol"`, `reasoning_effort: "high"`, and `fork_turns: "none"`.
+- Keep final review at high without effort selection, including review of subsequent corrections.
 - Provide the user's requirements, acceptance conditions, source identity, combined changes, verification evidence, and known limitations.
 - Include unresolved questions and contributing agents' reports.
 - Have the reviewer inspect actual changes and affected consumers rather than rely solely on agent reports.
