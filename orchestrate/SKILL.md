@@ -1,13 +1,13 @@
 ---
 name: orchestrate
-description: Use subagents for substantial parallel work. Keep small or tightly coupled tasks with one agent. Delegate proactively when it can save time or improve coverage.
+description: Coordinate subagents when independent tasks can run in parallel to improve speed or coverage. Keep small or tightly coupled tasks with one agent.
 ---
 
 # Orchestrate
 
 ## Scope and responsibility
 
-- Use `gpt-6.1-sol` at `medium` effort for root coordination.
+- Root agent: Preserve the main chat's configured model and reasoning effort.
 - Root agent: Own integration, conflict resolution, required verification, and completion.
 - Root agent: Remain available to the user during delegated work.
 - Preserve the user's scope, requirements, and authorization.
@@ -24,7 +24,7 @@ description: Use subagents for substantial parallel work. Keep small or tightly 
 
 ## Model and effort selection
 
-- Before each spawn, assess the subtask's required decisions, uncertainty, affected behavior, and deliverable.
+- After dividing the work and before each spawn, assess the assigned subtask's scope, required decisions, uncertainty, affected behavior and interactions, deliverable, and acceptance conditions to select its reasoning effort.
 - Use `gpt-6.1-sol` for implementation and investigation subagents.
 - For non-fixed assignments, first assess whether low effort meets the task requirements.
 - If higher effort is needed, identify the requirement that justifies the increase.
@@ -65,7 +65,7 @@ description: Use subagents for substantial parallel work. Keep small or tightly 
 - Default to `fork_turns: "none"`.
 - Give each subagent clear scope, deliverables, ownership boundaries, relevant context, and acceptance conditions.
 - Instruct leaf subagents not to delegate.
-- Require results, supporting evidence, unresolved questions, and verification limits.
+- Return a concise summary of results, supporting evidence, unresolved questions, and verification limits, with references to detailed artifacts when needed.
 - Write readable agent messages with proper word and number spacing.
 
 ## Integration and verification
