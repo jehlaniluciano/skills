@@ -5,104 +5,51 @@ description: Coordinate subagents when independent tasks can run in parallel to 
 
 # Orchestrate
 
-## Scope and responsibility
+## Coordination
 
-- Root agent: Preserve the main chat's configured model and reasoning effort.
-- Root agent: Own integration, conflict resolution, required verification, and completion.
-- Root agent: Remain available to the user during delegated work.
-- Preserve the user's scope, requirements, and authorization.
+- Root: Keep the main chat's model and effort, remain available, and own integration, verification, and completion.
+- Preserve user scope and authorization.
 
 ## Delegation
 
-- Before substantial work and when scope expands, identify independent deliverables that can run in parallel.
-- Root and non-leaf agents: Delegate independent work early when expected gains exceed coordination, usage, and integration costs.
-- Continue useful work while subagents run.
-- Use parallel tool calls for simple independent lookups.
-- Run dependent steps in sequence and give each shared mutable resource one owner.
-- Avoid conflicting edits and duplicate work.
-- Keep small or tightly coupled tasks with one agent when delegation adds unnecessary overhead.
+- Assess requirements, acceptance conditions, dependencies, and shared resources before splitting serial and parallel work.
+- Root and non-leaf agents: Delegate early when benefits exceed coordination, usage, and integration costs.
+- Keep small or tightly coupled work solo, sequence dependencies, and batch simple independent lookups.
+- Assign scope, ownership, dependencies, context, deliverables, and acceptance conditions, with one owner per shared resource and no leaf delegation.
+- Avoid conflicting or duplicate work and continue independent work while agents run.
+- Require concise results, evidence, questions, verification limits, and artifact references.
+- Reassess assignments and effort after diagnosis or reported scope/evidence changes.
 
-## Model and effort selection
+## Reasoning effort
 
-- After dividing the work and before each spawn, assess the assigned subtask's scope, required decisions, uncertainty, affected behavior and interactions, deliverable, and acceptance conditions to select its reasoning effort.
-- Use `gpt-6.1-sol` for implementation and investigation subagents.
-- For non-fixed assignments, first assess whether low effort meets the task requirements.
-- If higher effort is needed, identify the requirement that justifies the increase.
-- Explain how the selected higher effort addresses that requirement.
-- Select the lowest sufficient effort that supports the required analysis and acceptance conditions.
-- Select effort from the assigned subtask rather than the parent task.
-- Do not classify work as low effort merely because it is read-only.
-- Pass `model` and `reasoning_effort` explicitly when the tool permits overrides.
-- Coordinator: State the selected effort and one task-specific reason in the assignment before dispatch.
-- Do not increase effort solely because of file count, task importance, or subject matter.
-- Example: "High: Recovery and reconnect can overlap, which requires analysis of competing paths that could duplicate command effects."
-- Subagents: Report evidence or scope changes that could require a different effort level.
-- Coordinator: Reassess effort after diagnosis and when evidence or scope changes.
-- Apply revised effort to subsequent assignments when the tool permits overrides.
+- Use `gpt-6.1-sol` for implementation and investigation agents, explicit model/effort when supported, and `fork_turns: "none"` by default.
+- For non-fixed assignments, assess subtask decisions, uncertainty, interactions, and acceptance conditions before selecting the lowest sufficient effort.
+- Assess low → medium → high before execution; no initial low-effort run is required.
+- Use `low` for explicit, bounded, directly checkable work with little interpretation: inventories, caller locations, comparisons, or prescribed edits.
+- Use `medium` for connected decisions within clear requirements: defined features, workflow tracing, behavioral tests, or established fixes.
+- Use `high` for ambiguity, competing explanations, uncertain assumptions, or complex interactions: races, ownership boundaries, or conflicting behavioral/compatibility evidence.
+- Select medium/high for behavioral conclusions beyond factual checks, and high when ambiguity or complex interactions determine the result.
+- Select by subtask, not parent-task size, file count, importance, subject matter, or read-only status.
+- Before dispatch, report `Task:`, `Reasoning:`, and a task-specific `Reason:` as three separate bullet lines in commentary and the assignment, explaining why lower effort is insufficient for non-fixed medium/high assignments.
+- Report uncertainty rather than infer behavior from search results alone.
 
-### Low
+## Verification
 
-- Use `low` when the task is bounded, requirements are explicit, and little interpretation is necessary.
-- Use it for targeted searches, factual extraction, prescribed replacements, and mechanical checks.
-- Examples include locating callers, extracting toolchain versions, checking file equality, or applying an approved label change.
-- Return unresolved questions rather than infer behavior from search results alone.
+- Integrate results, resolve conflicts, and assess combined work against requirements.
+- Finish relevant source, test, and configuration edits before combined verification, and keep source stable during verification and review.
+- Run required checks at the smallest reliable scope and identify blocked checks and acceptance gaps.
 
-### Medium
+## Independent review
 
-- Use `medium` when clear requirements require several connected decisions or checks.
-- Use it for routine implementation, bounded research, test development, and debugging with an established failure.
-- Use medium for bounded implementation when low effort does not support the required decisions and checks.
-- Examples include implementing a defined feature, tracing a known workflow, or planning corrections for established findings.
-
-### High
-
-- Use `high` when unresolved ambiguity or complex interactions require substantial analysis.
-- Use it for unclear failure causes, competing hypotheses, consequential boundary changes, and difficult compatibility decisions.
-- Examples include diagnosing recovery races, tracing account isolation failures, or resolving conflicting behavioral evidence.
-
-## Assignment
-
-- Default to `fork_turns: "none"`.
-- Give each subagent clear scope, deliverables, ownership boundaries, relevant context, and acceptance conditions.
-- Instruct leaf subagents not to delegate.
-- Return a concise summary of results, supporting evidence, unresolved questions, and verification limits, with references to detailed artifacts when needed.
-- Write readable agent messages with proper word and number spacing.
-
-## Integration and verification
-
-- Confirm that all contributing agents have finished relevant source, test, and configuration edits before combined verification.
-- Review and integrate subagent results.
-- Resolve conflicts and assess the combined changes against the user's requirements.
-- Complete required checks at the smallest reliable scope.
-- Repeat checks only for relevant changes, failures, missing evidence, or unresolved concerns.
-- Identify blocked checks and remaining acceptance gaps.
-- Keep the source stable during combined verification and final review.
-
-## Final review
-
-- After implementation, integration, and required checks finish, spawn one independent final reviewer for substantial delegated work.
-- Use `model: "gpt-6.1-sol"`, `reasoning_effort: "high"`, and `fork_turns: "none"`.
-- Keep final review at high without effort selection, including review of subsequent corrections.
-- Provide the user's requirements, acceptance conditions, source identity, combined changes, verification evidence, and known limitations.
-- Include unresolved questions and contributing agents' reports.
-- Have the reviewer inspect actual changes and affected consumers rather than rely solely on agent reports.
-- Have the reviewer assess requirement coverage, correctness, regressions, integration, and verification sufficiency.
-- Permit focused checks where existing evidence is insufficient.
-- Have the reviewer return actionable findings, supporting evidence, unresolved ambiguity, and whether the evidence supports completion.
-- Keep the reviewer independent of implementation and shared-source edits.
-- Instruct the reviewer not to delegate.
-
-## Corrections
-
-- Root agent: Resolve confirmed findings within the authorized scope.
-- Select correction agents through the model and effort criteria.
-- Integrate corrections and repeat affected checks.
-- Have the reviewer review corrections and their effects before completion.
-- Expand review only when changes or unresolved concerns justify it.
+- After implementation, integration, and checks finish, assign one independent final reviewer for substantial delegated work.
+- Use `gpt-6.1-sol`, `reasoning_effort: "high"`, and `fork_turns: "none"` for all final and correction reviews.
+- Supply requirements, acceptance conditions, source identity, combined changes, reports, verification evidence, questions, and limitations.
+- Require inspection of actual changes and affected consumers for coverage, correctness, regressions, integration, and verification sufficiency, with focused checks where needed.
+- Keep the reviewer independent of implementation and source edits, prohibit delegation, and require actionable findings, evidence, unresolved ambiguity, and a completion assessment.
+- Fix confirmed findings within scope, select correction agents with the rubric, integrate corrections, rerun affected checks, and have corrections and their effects reviewed.
+- Repeat checks or expand review only for relevant changes, failures, missing evidence, or unresolved concerns.
 
 ## Completion
 
-- Confirm that final review covers the current source.
-- Complete only when required acceptance conditions pass and no unresolved finding prevents completion.
-- Report completed work, verification evidence, and material limitations.
-- If findings or required checks remain unresolved, report the remaining work without claiming completion.
+- Complete only when review covers current source, acceptance conditions pass, and no blocking finding remains.
+- Report results, verification, limitations, and remaining work without overstating completion.
