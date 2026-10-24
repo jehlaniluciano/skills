@@ -16,7 +16,8 @@ description: Coordinate subagents for substantial work that benefits from parall
 - Root and non-leaf agents: Delegate early when benefits exceed coordination, usage, and integration costs.
 - Keep small or tightly coupled work solo, sequence dependencies, and batch simple independent lookups.
 - Assign scope, ownership, dependencies, context, deliverables, and acceptance conditions, with one owner per shared resource and no leaf delegation.
-- Assign each agent a unique, short, task-relevant single-word name at creation, such as `deployment`, `recovery`, or `review`.
+- Assign each agent a unique, task-relevant name of 1–3 words, using the fewest words that remain clear.
+- Replace spaces with underscores for tool identifiers only, such as `package verification` → `package_verification`.
 - Avoid conflicting or duplicate work and continue independent work while agents run.
 - Require concise results, evidence, questions, verification limits, and artifact references.
 - Reassess assignments and effort after diagnosis or reported scope/evidence changes.
@@ -31,18 +32,18 @@ description: Coordinate subagents for substantial work that benefits from parall
 - Use `high` for ambiguity, competing explanations, uncertain assumptions, or complex interactions: races, ownership boundaries, or conflicting behavioral/compatibility evidence.
 - Select medium/high for behavioral conclusions beyond factual checks, and high when ambiguity or complex interactions determine the result.
 - Select by subtask, not parent-task size, file count, importance, subject matter, or read-only status.
-- Before dispatch, report each assignment in commentary and the assignment message under a separate `### Agent: <name>` heading, using the exact name assigned at creation and three separate bullets labeled `Task:`, `Reasoning:`, and `Reason:`.
+- Before dispatch, report each assignment in commentary and the assignment message under a separate `### Agent: <name>` heading, using the assigned name with spaces and three separate bullets labeled `Task:`, `Reasoning:`, and `Reason:`.
 - Separate agent blocks with a blank line and explain why lower effort is insufficient for non-fixed medium/high assignments.
 - Report uncertainty rather than infer behavior from search results alone.
 
 ```markdown
-### Agent: deployment
+### Agent: deployment review
 
 - Task: Review deployment readiness.
 - Reasoning: medium
 - Reason: Readiness needs connected build and configuration checks, beyond an inventory.
 
-### Agent: recovery
+### Agent: recovery risk review
 
 - Task: Review recovery and alerting.
 - Reasoning: high
