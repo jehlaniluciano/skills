@@ -30,18 +30,18 @@ description: Coordinate subagents for substantial work that benefits from parall
 - Use `high` for ambiguity, competing explanations, uncertain assumptions, or complex interactions: races, ownership boundaries, or conflicting behavioral/compatibility evidence.
 - Select medium/high for behavioral conclusions beyond factual checks, and high when ambiguity or complex interactions determine the result.
 - Select by subtask, not parent-task size, file count, importance, subject matter, or read-only status.
-- Before dispatch, report each assignment in commentary and the assignment message under a separate `### Agent: <name>` heading, using the assigned agent name and three separate bullets labeled `Task:`, `Reasoning:`, and `Reason:`.
+- Before dispatch, report each assignment in commentary and the assignment message under a separate `### Agent: <name>` heading, using the agent's displayed name unchanged instead of an internal task identifier, and three separate bullets labeled `Task:`, `Reasoning:`, and `Reason:`.
 - Separate agent blocks with a blank line and explain why lower effort is insufficient for non-fixed medium/high assignments.
 - Report uncertainty rather than infer behavior from search results alone.
 
 ```markdown
-### Agent: deployment_review
+### Agent: Ada
 
 - Task: Review deployment readiness.
 - Reasoning: medium
 - Reason: Readiness needs connected build and configuration checks, beyond an inventory.
 
-### Agent: recovery_review
+### Agent: Grace
 
 - Task: Review recovery and alerting.
 - Reasoning: high
