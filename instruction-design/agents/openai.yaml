@@ -1,0 +1,3 @@
+interface:
+  display_name: "Instruction Design"
+  short_description: "Clear, lean prompts, agent rules, and skill instructions"
