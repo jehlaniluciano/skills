@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Coordinate subagents when independent tasks can run in parallel to improve speed or coverage. Keep small or tightly coupled tasks with one agent.
+description: Coordinate subagents for substantial work that benefits from parallel execution. Keep simple tasks with the root agent.
 ---
 
 # Orchestrate
@@ -30,8 +30,23 @@ description: Coordinate subagents when independent tasks can run in parallel to 
 - Use `high` for ambiguity, competing explanations, uncertain assumptions, or complex interactions: races, ownership boundaries, or conflicting behavioral/compatibility evidence.
 - Select medium/high for behavioral conclusions beyond factual checks, and high when ambiguity or complex interactions determine the result.
 - Select by subtask, not parent-task size, file count, importance, subject matter, or read-only status.
-- Before dispatch, report `Task:`, `Reasoning:`, and a task-specific `Reason:` as three separate bullet lines in commentary and the assignment, explaining why lower effort is insufficient for non-fixed medium/high assignments.
+- Before dispatch, report each assignment in commentary and the assignment message under a separate `### Agent: <name>` heading, using the assigned agent name and three separate bullets labeled `Task:`, `Reasoning:`, and `Reason:`.
+- Separate agent blocks with a blank line and explain why lower effort is insufficient for non-fixed medium/high assignments.
 - Report uncertainty rather than infer behavior from search results alone.
+
+```markdown
+### Agent: deployment_review
+
+- Task: Review deployment readiness.
+- Reasoning: medium
+- Reason: Readiness needs connected build and configuration checks, beyond an inventory.
+
+### Agent: recovery_review
+
+- Task: Review recovery and alerting.
+- Reasoning: high
+- Reason: Competing restart and alert paths require more than routine tracing.
+```
 
 ## Verification
 
